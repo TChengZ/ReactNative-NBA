@@ -9,16 +9,25 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  ListView
 } from 'react-native';
 
 import Network from './network/Network.js';
 
 export default class Nba extends Component {
 
-  getGameListCallback(flag, response){
+    constructor(props) {
+        super(props);
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows([])
+        };
+    }
+
+    getGameListCallback(flag, response){
       if(flag) {
-        console.log(response.reason);
+        console.log(response);
       }
   }
 
