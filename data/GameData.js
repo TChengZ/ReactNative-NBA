@@ -3,13 +3,18 @@
  */
 class GameData{
     isTitle = false;
-    titile = '';
+    title = '';
     player1 = '';
     player2 = '';
     player1logo = '';
     player2logo = '';
     status = '';
     time = '';
+    score = '';
+    link1text = '';
+    link1url = '';
+    link2text = '';
+    link2url = '';
 
     constructor(){
 

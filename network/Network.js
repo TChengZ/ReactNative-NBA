@@ -18,17 +18,44 @@ module.exports = {
                      gameDataDate.isTitle = true;
                      gameDataDate.title = listItem.title;
                      datas.push(gameDataDate);
-                     for(let j = 0; j < listItem.tr.length; j++){
-                         let gameData = new GameData();
-                         let trItem = listItem.tr[j];
-                         gameData.isTitle = false;
-                         gameData.player1 = trItem.player1;
-                         gameData.player2 = trItem.player2;
-                         gameData.player1logo = trItem.player1logo;
-                         gameData.player2logo = trItem.player2logo;
-                         gameData.time = trItem.time;
-                         gameData.status = trItem.status;
-                         datas.push(gameData);
+                     if(null != listItem.live){
+                         for(let j = 0; j < listItem.live.length; j++){
+                             let gameData = new GameData();
+                             let liveItem = listItem.live[j];
+                             gameData.isTitle = false;
+                             gameData.player1 = liveItem.player1;
+                             gameData.player2 = liveItem.player2;
+                             gameData.player1logo = liveItem.player1logobig;
+                             gameData.player2logo = liveItem.player2logobig;
+                             gameData.time = liveItem.time;
+                             gameData.status = liveItem.status;
+                             gameData.score = liveItem.score;
+                             gameData.link1text = liveItem.link1text;
+                             gameData.link1url = liveItem.link1url;
+                             gameData.link2text = liveItem.link2text;
+                             gameData.link2url = liveItem.link2url;
+                             datas.push(gameData);
+                         }
+                     }
+                     if(null != listItem.tr){
+                         for(let j = 0; j < listItem.tr.length; j++){
+                             let gameData = new GameData();
+                             let trItem = listItem.tr[j];
+                             gameData.isTitle = false;
+                             gameData.player1 = trItem.player1;
+                             gameData.player2 = trItem.player2;
+                             gameData.player1logo = trItem.player1logobig;
+                             gameData.player2logo = trItem.player2logobig;
+                             gameData.time = trItem.time;
+                             console.log(gameData.time);
+                             gameData.status = trItem.status;
+                             gameData.score = trItem.score;
+                             gameData.link1text = trItem.link1text;
+                             gameData.link1url = trItem.link1url;
+                             gameData.link2text = trItem.link2text;
+                             gameData.link2url = trItem.link2url;
+                             datas.push(gameData);
+                         }
                      }
                  }
                  getGameListCallback(true, datas);

@@ -13,6 +13,7 @@ import {
   ListView
 } from 'react-native';
 
+import PlayerTeam from './ui/PlayerTeam'
 import Network from './network/Network.js';
 
 export default class Nba extends Component {
@@ -25,26 +26,42 @@ export default class Nba extends Component {
         };
     }
 
-    getGameListCallback(flag, response){
-      if(flag) {
-        console.log(response);
+    getGameListCallback(flag, datas){
+        if(flag){
+            this.setState({
+                dataSource : this.state.dataSource.cloneWithRows(datas),
+            });
+        }
+
+  }
+
+  renderRow(rowData){
+      if(rowData.isTitle){
+          return (
+              <View style={styles.dateContainer}>
+                  <Text style={styles.dateTitle}>{rowData.title}</Text>
+              </View>
+          );
       }
+      else{
+          return (
+              <View style={{backgroundColor: '#fff', flexDirection: 'column', height: 256}}>
+                    <Text style={styles.gameTimeStyle}>{rowData.time}</Text>
+              </View>
+          );
+      }
+     
   }
 
   render() {
     Network.getGameList(this.getGameListCallback.bind(this));
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+          <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this.renderRow.bind(this)}
+              enableEmptySections={true}
+              />
       </View>
     );
   }
@@ -52,22 +69,40 @@ export default class Nba extends Component {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
+   container: {
+       flex: 1,
+       flexDirection : 'column',
+   },
+   welcome: {
+     fontSize: 20,
+     textAlign: 'center',
+     margin: 10,
+   },
+   instructions: {
+     textAlign: 'center',
+     color: '#333333',
+     marginBottom: 5,
+   },
+    listStyle:{
+
+    },
+    dateContainer:{
+        justifyContent: 'center',
+        backgroundColor: '#eaf1f4',
+        alignItems: 'center',
+        height: 74
+    },
+    dateTitle:{
+        fontSize: 26,
+        color: '#363d40',
+    },
+    gameTimeStyle:{
+        color: "#787d7c",
+        fontSize: 20,
+        marginTop: 32,
+        marginLeft: 29
+    }
 });
 
 AppRegistry.registerComponent('Nba', () => Nba);
