@@ -26,11 +26,12 @@ export default class PlayerTeam extends Component{
 const styles = StyleSheet.create({
     teamContainer:{
         flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     teamName:{
         fontSize: 26,
         color: '#363d40',
-        marginTop: 34
+        marginTop: 18
     }
 });
