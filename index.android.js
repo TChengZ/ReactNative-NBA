@@ -16,6 +16,7 @@ import {
 import PlayerTeam from './ui/PlayerTeam'
 import Network from './network/Network.js';
 import Button from './ui/Button';
+import GameData from  './data/GameData';
 
 export default class Nba extends Component {
 
@@ -48,15 +49,15 @@ export default class Nba extends Component {
           let gameButtonStyle = styles.buttonGameNotStartStyle;
           let gameState = rowData.link1text;
           let gameStateTextStyle = styles.gameStateText;
-          if(rowData.status == 0){
+          if(rowData.status == GameData.GAME_NOT_START){
               gameButtonStyle = styles.buttonGameNotStartStyle;
               gameState = '未开始';
               gameStateTextStyle = styles.gameStateNotStartText;
           }
-          else if(rowData.status == 1){
+          else if(rowData.status == GameData.GAME_LIVE){
               gameButtonStyle = styles.buttonGameLiveStyle;
           }
-          else if(rowData.status == 2){
+          else if(rowData.status == GameData.GAME_NOT_START){
               gameButtonStyle = styles.buttonGameFinishStyle;
           }
           return (
