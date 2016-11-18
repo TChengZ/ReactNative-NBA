@@ -14,8 +14,22 @@ import {
 } from 'react-native';
 
 import GameList from  './js/component/GameList';
+import GameDetail from  './js/component/GameDetail'
 
 var nav;
+
+BackAndroid.addEventListener('hardwareBackPress', ()=> {
+    if (!nav) {
+        // _navigator未初始化
+        return true;
+    }
+    if (nav.getCurrentRoutes().length === 1) {
+        return false;
+    } else {
+        nav.pop();
+        return true;
+    }
+});
 
 export default class Nba extends Component {
 
@@ -49,7 +63,7 @@ export default class Nba extends Component {
         return (
             <Navigator
                 style={styles.container}
-                initialRoute={{id: 'gameList'}}
+                initialRoute={{id: 'GameList'}}
                 renderScene={this.navigatorRenderScene.bind(this)}
             />
         )
@@ -57,9 +71,20 @@ export default class Nba extends Component {
 
     navigatorRenderScene(route, navigator){
         nav = navigator;
-        return (<GameList
-            onBack={() => {BackAndroid.exitApp();}}
-        />);
+        switch(route.id){
+            case 'GameList':
+                return (<GameList
+                    navigator={navigator}
+                    onBack={() => {BackAndroid.exitApp();}}
+                />);
+            case 'GameDetail':
+                console.log("go GameDetail");
+                return (<GameDetail
+                    player1={route.player1}
+                    player2={route.player2}
+                    url={route.url}
+                    />);
+        }
     }
 }
 

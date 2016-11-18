@@ -62,7 +62,9 @@ export default class GameList extends Component{
                         <PlayerTeam style={{flex:1}} name={rowData.player1} uri={rowData.player1logo} />
                         <View style={{flex:1.2, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 5}}>
                             <Text style={{color: '#32393c', fontSize: 20, marginBottom: 20}}>{rowData.score}</Text>
-                            <Button text={gameState} setStyle={gameButtonStyle} setTextStyle={gameStateTextStyle}/>
+                            <Button text={gameState} setStyle={gameButtonStyle} setTextStyle={gameStateTextStyle}
+                                    onPress={this.onGameBtnClick.bind(this, rowData)}
+                            />
                         </View>
                         <PlayerTeam style={{flex:1}} name={rowData.player2} uri={rowData.player2logo} />
                     </View>
@@ -70,7 +72,15 @@ export default class GameList extends Component{
                 </View>
             );
         }
-
+    }
+    
+    onGameBtnClick(rowData){
+        this.props.navigator.push({
+            id: 'GameDetail',
+            player1: rowData.player1,
+            player2: rowData.player2,
+            url: rowData.link1url
+        });
     }
 
     render() {
