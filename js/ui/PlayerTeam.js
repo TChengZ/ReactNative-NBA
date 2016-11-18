@@ -16,7 +16,7 @@ export default class PlayerTeam extends Component{
     render(){
         return (
             <View style={styles.teamContainer}>
-                <Image style={{width: 78, height: 78}} source={{uri: this.props.uri}}/>
+                <Image style={{width: 50, height: 50}} source={{uri: this.props.uri}}/>
                 <Text style={styles.teamName}>{this.props.name}</Text>
             </View>
         );
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     teamName:{
-        fontSize: 26,
+        fontSize: 18,
         color: '#363d40',
-        marginTop: 18
+        marginTop: 10
     }
 });

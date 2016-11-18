@@ -8,88 +8,59 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  Text,
-  View,
-  ListView
+  Navigator,
+  BackAndroid,
+  Platform
 } from 'react-native';
 
-import PlayerTeam from './ui/PlayerTeam'
-import Network from './network/Network.js';
-import Button from './ui/Button';
-import GameData from  './data/GameData';
+import GameList from  './js/component/GameList';
+
+var nav;
 
 export default class Nba extends Component {
 
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        this.state = {
-            dataSource: ds.cloneWithRows([])
-        };
     }
 
-    getGameListCallback(flag, datas){
-        if(flag){
-            this.setState({
-                dataSource : this.state.dataSource.cloneWithRows(datas),
-            });
+    componentWillMount() {
+        if (Platform.OS === 'android') {
+            BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
         }
+    }
+    componentWillUnmount() {
+        if (Platform.OS === 'android') {
+            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
+        }
+    }
+    onBackAndroid() {
+        if(!nav){
+            return false;
+        }
+        let routers = nav.getCurrentRoutes();
+        if (routers.length > 1) {
+            nav.pop();
+            return true;
+        }
+        return false;
+    };
 
-  }
+    render() {
+        return (
+            <Navigator
+                style={styles.container}
+                initialRoute={{id: 'gameList'}}
+                renderScene={this.navigatorRenderScene.bind(this)}
+            />
+        )
+    }
 
-  renderRow(rowData){
-      if(rowData.isTitle){
-          return (
-              <View style={styles.dateContainer}>
-                  <Text style={styles.dateTitle}>{rowData.title}</Text>
-              </View>
-          );
-      }
-      else{
-          let gameButtonStyle = styles.buttonGameNotStartStyle;
-          let gameState = rowData.link1text;
-          let gameStateTextStyle = styles.gameStateText;
-          if(rowData.status == GameData.GAME_NOT_START){
-              gameButtonStyle = styles.buttonGameNotStartStyle;
-              gameState = '未开始';
-              gameStateTextStyle = styles.gameStateNotStartText;
-          }
-          else if(rowData.status == GameData.GAME_LIVE){
-              gameButtonStyle = styles.buttonGameLiveStyle;
-          }
-          else if(rowData.status == GameData.GAME_NOT_START){
-              gameButtonStyle = styles.buttonGameFinishStyle;
-          }
-          return (
-              <View style={{backgroundColor: '#fff', flexDirection: 'column'}}>
-                    <Text style={styles.gameTimeStyle}>{rowData.time}</Text>
-                    <View style={{flexDirection: 'row', marginTop: 25}}>
-                        <PlayerTeam style={{flex:1}} name={rowData.player1} uri={rowData.player1logo} />
-                        <View style={{flex:1.2, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 5}}>
-                            <Text style={{color: '#32393c', fontSize: 30, marginBottom: 25}}>{rowData.score}</Text>
-                            <Button text={gameState} setStyle={gameButtonStyle} setTextStyle={gameStateTextStyle}/>
-                        </View>
-                        <PlayerTeam style={{flex:1}} name={rowData.player2} uri={rowData.player2logo} />
-                    </View>
-                    <View style={{height: 1, backgroundColor: '#eaf1f4', marginTop: 25}}/>
-              </View>
-          );
-      }
-     
-  }
-
-  render() {
-    Network.getGameList(this.getGameListCallback.bind(this));
-    return (
-      <View style={styles.container}>
-          <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this.renderRow.bind(this)}
-              enableEmptySections={true}
-              />
-      </View>
-    );
-  }
+    navigatorRenderScene(route, navigator){
+        nav = navigator;
+        return (<GameList
+            onBack={() => {BackAndroid.exitApp();}}
+        />);
+    }
 }
 
 
@@ -98,68 +69,7 @@ const styles = StyleSheet.create({
    container: {
        flex: 1,
        flexDirection : 'column',
-   },
-   welcome: {
-     fontSize: 20,
-     textAlign: 'center',
-     margin: 10,
-   },
-   instructions: {
-     textAlign: 'center',
-     color: '#333333',
-     marginBottom: 5,
-   },
-    listStyle:{
-
-    },
-    dateContainer:{
-        justifyContent: 'center',
-        backgroundColor: '#eaf1f4',
-        alignItems: 'center',
-        height: 74
-    },
-    dateTitle:{
-        fontSize: 26,
-        color: '#363d40',
-    },
-    gameTimeStyle:{
-        color: "#787d7c",
-        fontSize: 20,
-        marginTop: 20,
-        marginLeft: 29
-    },
-    buttonGameFinishStyle:{
-        height: 64,
-        width: 220,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: 'transparent',
-        backgroundColor: 'blue'
-    },
-    buttonGameLiveStyle:{
-        height: 64,
-        width: 220,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: 'transparent',
-        backgroundColor: 'blue'
-    },
-    buttonGameNotStartStyle:{
-        height: 64,
-        width: 220,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: 'gray',
-        backgroundColor: 'white'
-    },
-    gameStateText:{
-        color: 'white',
-        fontSize: 22
-    },
-    gameStateNotStartText:{
-        color: '#32393c',
-        fontSize: 22
-    },
+   }
 });
 
 AppRegistry.registerComponent('Nba', () => Nba);
