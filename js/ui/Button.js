@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {
-     Text, TouchableHighlight, StyleSheet
+     Text, TouchableOpacity, StyleSheet
     } from 'react-native';
 
 export default class Button extends Component{
@@ -11,10 +11,10 @@ export default class Button extends Component{
 
     render(){
         return(
-            <TouchableHighlight style={[styles.button, this.props.setStyle]}
+            <TouchableOpacity style={[styles.button, this.props.setStyle]}
                                 onPress={this.props.onPress}>
                 <Text style={this.props.setTextStyle}>{this.props.text}</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }
