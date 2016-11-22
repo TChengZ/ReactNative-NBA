@@ -6,7 +6,8 @@ import {
     StyleSheet,
     Text,
     View,
-    ListView
+    ListView,
+    ActivityIndicator
 } from 'react-native';
 
 import PlayerTeam from  './../ui/PlayerTeam';
@@ -14,22 +15,22 @@ import Network from  './../network/Network';
 import Button from  './../ui/Button';
 import Titlebar from  './../ui/Titlebar';
 
+
 export default class GameList extends Component{
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
+            firstLoadEnd: false,
             dataSource: ds.cloneWithRows([])
         };
     }
 
     getGameListCallback(flag, datas){
-        if(flag){
-            this.setState({
-                dataSource : this.state.dataSource.cloneWithRows(datas),
-            });
-        }
-
+        this.setState({
+            firstLoadEnd: flag,
+            dataSource : flag?this.state.dataSource.cloneWithRows(datas): [],
+        });
     }
 
     renderRow(rowData){
@@ -85,17 +86,23 @@ export default class GameList extends Component{
 
     render() {
         Network.getGameList(this.getGameListCallback.bind(this));
+        var listView = <ListView
+                            dataSource={this.state.dataSource}
+                            renderRow={this.renderRow.bind(this)}
+                            enableEmptySections={true}
+                        />;
+
+        var progress = <View  style={{justifyContent: 'center',alignItems: 'center', flex: 1}}>
+                            <ActivityIndicator size="large"/>
+                        </View>;
+        let content = this.state.firstLoadEnd? listView: progress;
         return (
             <View style={styles.container}>
                 <Titlebar  isNeedBack={false}
                            title="NBA"
                            onBack={this.props.onBack}
                 />
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)}
-                    enableEmptySections={true}
-                />
+                {content}
             </View>
         );
     }
