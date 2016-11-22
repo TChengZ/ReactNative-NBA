@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         borderWidth: 1,
         borderColor: 'transparent',
-        backgroundColor: '#2762fd'
+        backgroundColor: 'red'
     },
     buttonGameNotStartStyle:{
         height: 30,

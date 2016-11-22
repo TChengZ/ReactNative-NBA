@@ -74,9 +74,9 @@ export default class Titlebar extends Component {
     render() {
         var right = this._newRight();
         return (
-            <View style={{height : 48, flexDirection : 'row', backgroundColor : '#fafafa', alignItems : 'center', justifyContent:'space-around'}}>
+            <View style={{height : 48, flexDirection : 'row', backgroundColor : '#1a9ef0', alignItems : 'center', justifyContent:'space-around'}}>
                 {this._newBackIcon(this.props.isNeedBack)}
-                <Text style={{fontSize: 22, color : '#171717'}}>{this.props.title}</Text>
+                <Text style={{fontSize: 22, color : 'white'}}>{this.props.title}</Text>
                 {right}
             </View>
         );
