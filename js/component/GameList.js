@@ -91,7 +91,11 @@ export default class GameList extends Component{
                             renderRow={this.renderRow.bind(this)}
                             enableEmptySections={true}
                         />;
-
+        if(this.state.dataSource.length == 0){
+            listView = <View  style={{justifyContent: 'center',alignItems: 'center', flex: 1}}>
+                            <Text style={styles.dateTitle}>暂时没有比赛数据</Text>
+                        </View>;
+        }
         var progress = <View  style={{justifyContent: 'center',alignItems: 'center', flex: 1}}>
                             <ActivityIndicator size="large"/>
                         </View>;
