@@ -7,14 +7,17 @@ import {
     Text,
     View,
     ListView,
-    ActivityIndicator
+    ActivityIndicator,
+    ToastAndroid
 } from 'react-native';
 
 import PlayerTeam from  './../ui/PlayerTeam';
 import Network from  './../network/Network';
 import Button from  './../ui/Button';
 import Titlebar from  './../ui/Titlebar';
+import PopupWindow from  './../nativeModule/PopupWindow';
 
+var moreLinks = [];
 
 export default class GameList extends Component{
     constructor(props) {
@@ -26,7 +29,8 @@ export default class GameList extends Component{
         };
     }
 
-    getGameListCallback(flag, datas){
+    getGameListCallback(flag, datas, links){
+        moreLinks = links;
         this.setState({
             firstLoadEnd: flag,
             dataSource : flag?this.state.dataSource.cloneWithRows(datas): [],
@@ -105,10 +109,20 @@ export default class GameList extends Component{
                 <Titlebar  isNeedBack={false}
                            title="NBA"
                            onBack={this.props.onBack}
+                           rightText="更多"
+                           onRightPress={this.onTitleRightPress.bind(this)}
                 />
                 {content}
             </View>
         );
+    }
+
+    onTitleRightPress(){
+        if(null == moreLinks){
+            ToastAndroid.show('数据还在请求', ToastAndroid.SHORT);
+            return;
+        }
+        PopupWindow.showPopup(moreLinks);
     }
 }
 
@@ -128,9 +142,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#333333',
         marginBottom: 5,
-    },
-    listStyle:{
-
     },
     dateContainer:{
         justifyContent: 'center',
