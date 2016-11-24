@@ -1,6 +1,8 @@
 package com.nba.jsmodule;
 
+import android.graphics.Color;
 import android.os.Looper;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +17,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.nba.MainApplication;
+import com.nba.R;
 import com.nba.utils.Constants;
 
 
@@ -40,15 +44,21 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
                 LinearLayout linearLayout = new LinearLayout(getCurrentActivity());
                 linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
-                linearLayout.setBackgroundResource(android.R.color.holo_green_dark);
-                linearLayout.setGravity(Gravity.CLIP_HORIZONTAL);
+                linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+                int m30dp = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, MainApplication.getInstance().getResources().getDisplayMetrics());
+                int m100dp = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, MainApplication.getInstance().getResources().getDisplayMetrics());
                 for(int i = 0; i < array.size(); i++){
                     ReadableMap readableMap = array.getMap(i);
                     String name = readableMap.getString("name");
                     TextView textView = new TextView(getCurrentActivity());
-                    textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(m100dp, m30dp);
+                    textView.setLayoutParams(textParams);
+//                    textView.setPadding(m15dp, m10dp, m15dp, m10dp);
                     textView.setText(name);
+                    textView.setTextSize(16);
+                    textView.setTextColor(Color.WHITE);
                     textView.setGravity(Gravity.CENTER);
+                    textView.setBackgroundResource(R.drawable.bg_more_link);
                     linearLayout.addView(textView);
                 }
                 mMoreLinkPopup = null;

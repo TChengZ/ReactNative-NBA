@@ -44,8 +44,8 @@ export default class Titlebar extends Component {
             <TouchableHighlight onPress={this.props.onRightPress}
                                 underlayColor="rgb(210, 230, 255)"
                                 style={{borderRadius: 5, alignItems: 'center',
-                                        position : 'absolute', left : left, top : 15}}>
-                <Text style={{fontSize: 18, fontWeight: 'bold', color : '#171717'}}>{text}</Text>
+                                        position : 'absolute', left : left, top : 12}}>
+                <Text style={{fontSize: 18, color : 'white'}}>{text}</Text>
             </TouchableHighlight>
         );
     }
