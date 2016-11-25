@@ -82,8 +82,6 @@ export default class GameList extends Component{
     onGameBtnClick(rowData){
         this.props.navigator.push({
             id: 'GameDetail',
-            player1: rowData.player1,
-            player2: rowData.player2,
             url: rowData.link1url
         });
     }
@@ -122,7 +120,14 @@ export default class GameList extends Component{
             ToastAndroid.show('数据还在请求', ToastAndroid.SHORT);
             return;
         }
-        PopupWindow.showPopup(moreLinks);
+        PopupWindow.showPopup(moreLinks, this.onMoreLinkClick.bind(this));
+    }
+
+    onMoreLinkClick(url){
+        this.props.navigator.push({
+            id: 'GameDetail',
+            url: url
+        });
     }
 }
 

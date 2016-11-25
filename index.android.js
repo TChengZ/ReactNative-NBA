@@ -78,7 +78,6 @@ export default class Nba extends Component {
                     onBack={() => {BackAndroid.exitApp();}}
                 />);
             case 'GameDetail':
-                console.log("go GameDetail");
                 return (<GameDetail
                     player1={route.player1}
                     player2={route.player2}

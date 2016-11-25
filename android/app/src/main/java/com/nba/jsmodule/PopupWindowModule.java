@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -35,7 +36,7 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod
-    public void showPopup(final ReadableArray array){
+    public void showPopup(final ReadableArray array, final Callback callback){
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -46,7 +47,7 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
                 int m30dp = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, MainApplication.getInstance().getResources().getDisplayMetrics());
                 int m100dp = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, MainApplication.getInstance().getResources().getDisplayMetrics());
                 for(int i = 0; i < array.size(); i++){
-                    ReadableMap readableMap = array.getMap(i);
+                    final ReadableMap readableMap = array.getMap(i);
                     String name = readableMap.getString("name");
                     TextView textView = new TextView(getCurrentActivity());
                     LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(m100dp, m30dp);
@@ -56,6 +57,12 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
                     textView.setTextColor(Color.WHITE);
                     textView.setGravity(Gravity.CENTER);
                     textView.setBackgroundResource(R.drawable.bg_more_link);
+                    textView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            callback.invoke(readableMap.getString("link"));
+                        }
+                    });
                     linearLayout.addView(textView);
                 }
                 mMoreLinkPopup = null;
