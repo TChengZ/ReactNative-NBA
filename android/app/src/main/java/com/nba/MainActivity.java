@@ -30,10 +30,7 @@ public class MainActivity extends ReactActivity {
         if(null != jsPackage){
             PopupWindowModule popupWindowModule = jsPackage.getPopupWIndowModule();
             if(null != popupWindowModule){
-                PopupWindow moreLinkPopup = popupWindowModule.getMoreLinkPopup();
-                if(null != moreLinkPopup && moreLinkPopup.isShowing()){
-                    moreLinkPopup.dismiss();
-                }
+                popupWindowModule.dismissPopup();
             }
         }
     }

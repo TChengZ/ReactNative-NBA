@@ -60,6 +60,7 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            dismissPopup();
                             callback.invoke(readableMap.getString("link"));
                         }
                     });
@@ -75,7 +76,9 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
 
     }
 
-    public PopupWindow getMoreLinkPopup(){
-        return mMoreLinkPopup;
+    public void dismissPopup(){
+        if(null != mMoreLinkPopup && mMoreLinkPopup.isShowing()){
+            mMoreLinkPopup.dismiss();
+        }
     }
 }
