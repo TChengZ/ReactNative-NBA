@@ -4,13 +4,11 @@ import android.graphics.Color;
 import android.os.Looper;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -53,7 +51,6 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
                     TextView textView = new TextView(getCurrentActivity());
                     LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(m100dp, m30dp);
                     textView.setLayoutParams(textParams);
-//                    textView.setPadding(m15dp, m10dp, m15dp, m10dp);
                     textView.setText(name);
                     textView.setTextSize(16);
                     textView.setTextColor(Color.WHITE);
@@ -64,7 +61,8 @@ public class PopupWindowModule extends ReactContextBaseJavaModule{
                 mMoreLinkPopup = null;
                 mMoreLinkPopup = new PopupWindow(linearLayout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 View decorView = getCurrentActivity().getWindow().getDecorView();
-                mMoreLinkPopup.showAtLocation(decorView, Gravity.TOP|Gravity.RIGHT, 20, 200);
+                int m72dp = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, MainApplication.getInstance().getResources().getDisplayMetrics());
+                mMoreLinkPopup.showAtLocation(decorView, Gravity.TOP|Gravity.RIGHT, 0, m72dp);
             }
         });
 
